@@ -32,7 +32,7 @@ const calcImpact = (input) => {
     currentlyInfected: Math.floor(currentlyInfected),
     infectionsByRequestedTime: Math.floor(infectionsByRequestedTime),
     severeCasesByRequestedTime: Math.floor(severeCasesByRequestedTime),
-    hospitalBedsByRequestedTime: Math.floor(hospitalBedsByRequestedTime),
+    hospitalBedsByRequestedTime: Math.round(hospitalBedsByRequestedTime),
     casesForICUByRequestedTime: Math.floor(casesForICUByRequestedTime),
     casesForVentilatorsByRequestedTime: Math.floor(casesForVentilatorsByRequestedTime),
     dollarsInFlight: parseFloat(dollarsInFlight.toFixed(2))
@@ -75,7 +75,7 @@ const calcSevereImpact = (input) => {
     currentlyInfected: Math.floor(currentlyInfected),
     infectionsByRequestedTime: Math.floor(infectionsByRequestedTime),
     severeCasesByRequestedTime: Math.floor(severeCasesByRequestedTime),
-    hospitalBedsByRequestedTime: Math.floor(hospitalBedsByRequestedTime),
+    hospitalBedsByRequestedTime: Math.round(hospitalBedsByRequestedTime),
     casesForICUByRequestedTime: Math.floor(casesForICUByRequestedTime),
     casesForVentilatorsByRequestedTime: Math.floor(casesForVentilatorsByRequestedTime),
     dollarsInFlight: parseFloat(dollarsInFlight.toFixed(2))
