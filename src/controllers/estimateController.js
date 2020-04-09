@@ -43,8 +43,9 @@ exports.getEstimate = (req, res, next) => {
       status: 'Success',
       estimate
     });
+  } else {
+    next(new Error(`Can not find ${req.originalUrl} on this server!`, 404));
   }
-  next(new Error(`Can not find ${req.originalUrl} on this server!`, 404));
 };
 
 
@@ -61,13 +62,6 @@ exports.getData = (req, res, next) => {
     data.totalHospitalBeds = req.body.totalHospitalBeds;
     res.redirect('/api/v1/on-covid-19');
   }
-  data.periodType = req.body.periodType;
-  data.timeToElapse = req.body.timeToElapse;
-  data.reportedCases = req.body.reportedCases;
-  data.population = req.body.population;
-  data.totalHospitalBeds = req.body.totalHospitalBeds;
-  const estimate = covid19ImpactEstimator(data);
-  res.send(estimate);
 };
 
 exports.getLogs = (req, res) => {
