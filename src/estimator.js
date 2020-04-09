@@ -11,17 +11,17 @@ const calcImpact = (input) => {
   const infectionsByRequestedTime = currentlyInfected * (2 ** factor);
 
   // Estimated number of severe positive cases that will require hospitalization to recover.
-  const severeCasesByRequestedTime = 0.15 * infectionsByRequestedTime;
+  const severeCasesByRequestedTime = Math.floor(0.15 * infectionsByRequestedTime);
 
   // Estimated total hospital beds at requested time
   const availableBeds = Math.floor(0.35 * input.totalHospitalBeds);
   const hospitalBedsByRequestedTime = availableBeds - severeCasesByRequestedTime;
 
-  // Estimated number of severe positive cases(i.e general impact) that will require ICU care.
-  const casesForICUByRequestedTime = 0.05 * infectionsByRequestedTime;
+  // Estimated number of severe positive cases(severe impact) that will require ICU care.
+  const casesForICUByRequestedTime = Math.floor(0.05 * infectionsByRequestedTime);
 
-  // //Estimated number of severe positive cases(i.e general impact) that will require ICU care.
-  const casesForVentilatorsByRequestedTime = 0.02 * infectionsByRequestedTime;
+  // //Estimated number of severe positive cases(severe impact) that will require ICU care.
+  const casesForVentilatorsByRequestedTime = Math.floor(0.02 * infectionsByRequestedTime);
 
   // Estimate loss in economy (i.e general impact)
   const inPopu = infectionsByRequestedTime * input.region.avgDailyIncomePopulation;
@@ -54,17 +54,17 @@ const calcSevereImpact = (input) => {
   const infectionsByRequestedTime = currentlyInfected * (2 ** factor);
 
   // Estimated number of severe positive cases that will require hospitalization to recover.
-  const severeCasesByRequestedTime = 0.15 * infectionsByRequestedTime;
+  const severeCasesByRequestedTime = Math.floor(0.15 * infectionsByRequestedTime);
 
   // Estimated total hospital beds at requested time
   const availableBeds = Math.floor(0.35 * input.totalHospitalBeds);
   const hospitalBedsByRequestedTime = availableBeds - severeCasesByRequestedTime;
 
   // Estimated number of severe positive cases(severe impact) that will require ICU care.
-  const casesForICUByRequestedTime = 0.05 * infectionsByRequestedTime;
+  const casesForICUByRequestedTime = Math.floor(0.05 * infectionsByRequestedTime);
 
   // //Estimated number of severe positive cases(severe impact) that will require ICU care.
-  const casesForVentilatorsByRequestedTime = 0.02 * infectionsByRequestedTime;
+  const casesForVentilatorsByRequestedTime = Math.floor(0.02 * infectionsByRequestedTime);
 
   // Estimate loss in economy (i.e general impact)
 
