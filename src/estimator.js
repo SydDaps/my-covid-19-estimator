@@ -30,11 +30,11 @@ const calcImpact = (input) => {
 
   const impactObj = {
     currentlyInfected,
-    infectionsByRequestedTime,
-    severeCasesByRequestedTime,
-    hospitalBedsByRequestedTime,
-    casesForICUByRequestedTime,
-    casesForVentilatorsByRequestedTime,
+    infectionsByRequestedTime: Math.round(infectionsByRequestedTime),
+    severeCasesByRequestedTime: Math.round(severeCasesByRequestedTime),
+    hospitalBedsByRequestedTime: Math.round(hospitalBedsByRequestedTime),
+    casesForICUByRequestedTime: Math.round(casesForICUByRequestedTime),
+    casesForVentilatorsByRequestedTime: Math.round(casesForVentilatorsByRequestedTime),
     dollarsInFlight
   };
   return impactObj;
@@ -73,11 +73,11 @@ const calcSevereImpact = (input) => {
 
   const severeImpactObj = {
     currentlyInfected,
-    infectionsByRequestedTime,
-    severeCasesByRequestedTime,
-    hospitalBedsByRequestedTime,
-    casesForICUByRequestedTime,
-    casesForVentilatorsByRequestedTime,
+    infectionsByRequestedTime: Math.round(infectionsByRequestedTime),
+    severeCasesByRequestedTime: Math.round(severeCasesByRequestedTime),
+    hospitalBedsByRequestedTime: Math.round(hospitalBedsByRequestedTime),
+    casesForICUByRequestedTime: Math.round(casesForICUByRequestedTime),
+    casesForVentilatorsByRequestedTime: Math.round(casesForVentilatorsByRequestedTime),
     dollarsInFlight
   };
   return severeImpactObj;
