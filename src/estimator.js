@@ -7,7 +7,7 @@ const calcImpact = (input) => {
   let days = input.timeToElapse;
   if (input.periodType === 'weeks') days *= 7;
   else if (input.periodType === 'months') days *= 30;
-  const factor = days / 3;
+  const factor = Math.floor(days / 3);
   const infectionsByRequestedTime = currentlyInfected * (2 ** factor);
 
   // Estimated number of severe positive cases that will require hospitalization to recover.
@@ -29,13 +29,13 @@ const calcImpact = (input) => {
 
 
   const impactObj = {
-    currentlyInfected,
-    infectionsByRequestedTime,
-    severeCasesByRequestedTime,
-    hospitalBedsByRequestedTime,
-    casesForICUByRequestedTime,
-    casesForVentilatorsByRequestedTime,
-    dollarsInFlight
+    currentlyInfected: Math.floor(currentlyInfected),
+    infectionsByRequestedTime: Math.floor(infectionsByRequestedTime),
+    severeCasesByRequestedTime: Math.floor(severeCasesByRequestedTime),
+    hospitalBedsByRequestedTime: Math.floor(hospitalBedsByRequestedTime),
+    casesForICUByRequestedTime: Math.floor(casesForICUByRequestedTime),
+    casesForVentilatorsByRequestedTime: Math.floor(casesForVentilatorsByRequestedTime),
+    dollarsInFlight: parseFloat(dollarsInFlight.toFixed(2))
   };
   return impactObj;
 };
@@ -50,7 +50,7 @@ const calcSevereImpact = (input) => {
   let days = input.timeToElapse;
   if (input.periodType === 'weeks') days *= 7;
   else if (input.periodType === 'months') days *= 30;
-  const factor = days / 3;
+  const factor = Math.floor(days / 3);
   const infectionsByRequestedTime = currentlyInfected * (2 ** factor);
 
   // Estimated number of severe positive cases that will require hospitalization to recover.
@@ -72,13 +72,13 @@ const calcSevereImpact = (input) => {
   const dollarsInFlight = inPopu * input.region.avgDailyIncomeInUSD * days;
 
   const severeImpactObj = {
-    currentlyInfected,
-    infectionsByRequestedTime,
-    severeCasesByRequestedTime,
-    hospitalBedsByRequestedTime,
-    casesForICUByRequestedTime,
-    casesForVentilatorsByRequestedTime,
-    dollarsInFlight
+    currentlyInfected: Math.floor(currentlyInfected),
+    infectionsByRequestedTime: Math.floor(infectionsByRequestedTime),
+    severeCasesByRequestedTime: Math.floor(severeCasesByRequestedTime),
+    hospitalBedsByRequestedTime: Math.floor(hospitalBedsByRequestedTime),
+    casesForICUByRequestedTime: Math.floor(casesForICUByRequestedTime),
+    casesForVentilatorsByRequestedTime: Math.floor(casesForVentilatorsByRequestedTime),
+    dollarsInFlight: parseFloat(dollarsInFlight.toFixed(2))
   };
   return severeImpactObj;
 };
