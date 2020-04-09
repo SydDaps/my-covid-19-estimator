@@ -1,120 +1,94 @@
-/* eslint-disable no-use-before-define */
-/* eslint-disable max-len */
-/* eslint-disable no-restricted-properties */
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
-/* eslint-disable linebreak-style */
-/* eslint-disable quotes */
-/* eslint-disable indent */
-const rawData = {
-    region: {
-        name: 'Africa',
-        avgAge: 19.7,
-        avgDailyIncomeInUSD: 5,
-        avgDailyIncomePopulation: 0.71
-    },
-    periodType: "days",
-    timeToElapse: 58,
-    reportedCases: 674,
-    population: 66622705,
-    totalHospitalBeds: 1380614
-};
-
-
 const covid19ImpactEstimator = (data) => {
-    let current = data.reportedCases;
-    current *= 10;
+  const estimateObj = {
+    data,
+    impact: calcImpact(data),
+    severeImpact: calcSevereImpact(data)
 
-    const estimateObj = {
-        data,
-        impact: calcImpact(data),
-        severeImpact: calcSevereImpact(data)
-
-    };
-    return estimateObj;
+  };
+  return estimateObj;
 };
 // this calculates and returns the estimate for the Impact of covid_19 for a given data
 const calcImpact = (input) => {
-    // Number of currently  infected people(i.e general impact) after a given reported case
-    const currentlyInfected = input.reportedCases * 10;
+  // Number of currently  infected people(i.e general impact) after a given reported case
+  const currentlyInfected = input.reportedCases * 10;
 
-    // Estimate for number of infected people(i.e general impact) in days
-    let days = input.timeToElapse;
-    if (input.periodType === "weeks") days *= 7;
-    else if (input.periodType === "months") days *= 30;
-    const factor = days / 3;
-    const infectionsByRequestedTime = currentlyInfected * Math.pow(2, factor);
+  // Estimate for number of infected people(i.e general impact) in days
+  let days = input.timeToElapse;
+  if (input.periodType === 'weeks') days *= 7;
+  else if (input.periodType === 'months') days *= 30;
+  const factor = days / 3;
+  const infectionsByRequestedTime = currentlyInfected * (2 ** factor);
 
-    // Estimated number of severe positive cases(i.e general impact) that will require hospitalization to recover.
-    const severeCasesByRequestedTime = 0.15 * infectionsByRequestedTime;
+  // Estimated number of severe positive cases(i.e general impact) that will require hospitalization to recover.
+  const severeCasesByRequestedTime = 0.15 * infectionsByRequestedTime;
 
-    // Estimated total hospital beds at requested time
-    const availableBeds = 0.35 * input.totalHospitalBeds;
-    const hospitalBedsByRequestedTime = input.totalHospitalBeds - severeCasesByRequestedTime;
+  // Estimated total hospital beds at requested time
+  const availableBeds = 0.35 * input.totalHospitalBeds;
+  const hospitalBedsByRequestedTime = availableBeds - severeCasesByRequestedTime;
 
-    // Estimated number of severe positive cases(i.e general impact) that will require ICU care.
-    const casesForICUByRequestedTime = 0.05 * infectionsByRequestedTime;
+  // Estimated number of severe positive cases(i.e general impact) that will require ICU care.
+  const casesForICUByRequestedTime = 0.05 * infectionsByRequestedTime;
 
-    // //Estimated number of severe positive cases(i.e general impact) that will require ICU care.
-    const casesForVentilatorsByRequestedTime = 0.02 * infectionsByRequestedTime;
+  // //Estimated number of severe positive cases(i.e general impact) that will require ICU care.
+  const casesForVentilatorsByRequestedTime = 0.02 * infectionsByRequestedTime;
 
-    // Estimate loss in economy (i.e general impact)
+  // Estimate loss in economy (i.e general impact)
 
-    const dollarsInFlight = infectionsByRequestedTime * input.region.avgDailyIncomePopulation * input.region.avgDailyIncomeInUSD * days;
+  const dollarsInFlight = infectionsByRequestedTime * input.region.avgDailyIncomePopulation * input.region.avgDailyIncomeInUSD * days;
 
 
-    const impactObj = {
-        currentlyInfected,
-        infectionsByRequestedTime: Math.round(infectionsByRequestedTime),
-        severeCasesByRequestedTime: Math.round(severeCasesByRequestedTime),
-        hospitalBedsByRequestedTime: Math.round(hospitalBedsByRequestedTime),
-        casesForICUByRequestedTime: Math.round(casesForICUByRequestedTime),
-        casesForVentilatorsByRequestedTime: Math.round(casesForVentilatorsByRequestedTime),
-        dollarsInFlight
-    };
-    return impactObj;
+  const impactObj = {
+    currentlyInfected,
+    infectionsByRequestedTime: Math.round(infectionsByRequestedTime),
+    severeCasesByRequestedTime: Math.round(severeCasesByRequestedTime),
+    hospitalBedsByRequestedTime: Math.round(hospitalBedsByRequestedTime),
+    casesForICUByRequestedTime: Math.round(casesForICUByRequestedTime),
+    casesForVentilatorsByRequestedTime: Math.round(casesForVentilatorsByRequestedTime),
+    dollarsInFlight
+  };
+  return impactObj;
 };
 
 
 // this calculates and returns the severe estimate estimate for the Impact of covid_19
 const calcSevereImpact = (input) => {
-    // Number of currently infected people(severe impact) after a given reported case
-    const currentlyInfected = input.reportedCases * 50;
+  // Number of currently infected people(severe impact) after a given reported case
+  const currentlyInfected = input.reportedCases * 50;
 
-    // Estimate for number of infected(severe impact) people in days
-    let days = input.timeToElapse;
-    if (input.periodType === "weeks") days *= 7;
-    else if (input.periodType === "months") days *= 30;
-    const factor = days / 3;
-    const infectionsByRequestedTime = currentlyInfected * Math.pow(2, factor);
+  // Estimate for number of infected(severe impact) people in days
+  let days = input.timeToElapse;
+  if (input.periodType === 'weeks') days *= 7;
+  else if (input.periodType === 'months') days *= 30;
+  const factor = days / 3;
+  const infectionsByRequestedTime = currentlyInfected * Math.pow(2, factor);
 
-    // Estimated number of severe positive cases(severe impact) that will require hospitalization to recover.
-    const severeCasesByRequestedTime = 0.15 * infectionsByRequestedTime;
+  // Estimated number of severe positive cases(severe impact) that will require hospitalization to recover.
+  const severeCasesByRequestedTime = 0.15 * infectionsByRequestedTime;
 
-    // Estimated total hospital beds at requested time
-    const availableBeds = 0.35 * input.totalHospitalBeds;
-    const hospitalBedsByRequestedTime = input.totalHospitalBeds - severeCasesByRequestedTime;
+  // Estimated total hospital beds at requested time
+  const availableBeds = 0.35 * input.totalHospitalBeds;
+  const hospitalBedsByRequestedTime = availableBeds - severeCasesByRequestedTime;
 
-    // Estimated number of severe positive cases(severe impact) that will require ICU care.
-    const casesForICUByRequestedTime = 0.05 * infectionsByRequestedTime;
+  // Estimated number of severe positive cases(severe impact) that will require ICU care.
+  const casesForICUByRequestedTime = 0.05 * infectionsByRequestedTime;
 
-    // //Estimated number of severe positive cases(severe impact) that will require ICU care.
-    const casesForVentilatorsByRequestedTime = 0.02 * infectionsByRequestedTime;
+  // //Estimated number of severe positive cases(severe impact) that will require ICU care.
+  const casesForVentilatorsByRequestedTime = 0.02 * infectionsByRequestedTime;
 
-    // Estimate loss in economy (i.e general impact)
+  // Estimate loss in economy (i.e general impact)
 
-    const dollarsInFlight = infectionsByRequestedTime * input.region.avgDailyIncomePopulation * input.region.avgDailyIncomeInUSD * days;
+  const dollarsInFlight = infectionsByRequestedTime * input.region.avgDailyIncomePopulation * input.region.avgDailyIncomeInUSD * days;
 
-    const severeImpactObj = {
-        currentlyInfected,
-        infectionsByRequestedTime: Math.round(infectionsByRequestedTime),
-        severeCasesByRequestedTime: Math.round(severeCasesByRequestedTime),
-        hospitalBedsByRequestedTime: Math.round(hospitalBedsByRequestedTime),
-        casesForICUByRequestedTime: Math.round(casesForICUByRequestedTime),
-        casesForVentilatorsByRequestedTime: Math.round(casesForVentilatorsByRequestedTime),
-        dollarsInFlight
-    };
-    return severeImpactObj;
+  const severeImpactObj = {
+    currentlyInfected,
+    infectionsByRequestedTime: Math.round(infectionsByRequestedTime),
+    severeCasesByRequestedTime: Math.round(severeCasesByRequestedTime),
+    hospitalBedsByRequestedTime: Math.round(hospitalBedsByRequestedTime),
+    casesForICUByRequestedTime: Math.round(casesForICUByRequestedTime),
+    casesForVentilatorsByRequestedTime: Math.round(casesForVentilatorsByRequestedTime),
+    dollarsInFlight
+  };
+  return severeImpactObj;
 };
 module.exports = covid19ImpactEstimator;
 // export default covid19ImpactEstimator;
