@@ -14,7 +14,7 @@ const calcImpact = (input) => {
   const severeCasesByRequestedTime = 0.15 * infectionsByRequestedTime;
 
   // Estimated total hospital beds at requested time
-  const availableBeds = 0.35 * input.totalHospitalBeds;
+  const availableBeds = Math.floor(0.35 * input.totalHospitalBeds);
   const hospitalBedsByRequestedTime = availableBeds - severeCasesByRequestedTime;
 
   // Estimated number of severe positive cases(i.e general impact) that will require ICU care.
@@ -57,7 +57,7 @@ const calcSevereImpact = (input) => {
   const severeCasesByRequestedTime = 0.15 * infectionsByRequestedTime;
 
   // Estimated total hospital beds at requested time
-  const availableBeds = 0.35 * input.totalHospitalBeds;
+  const availableBeds = Math.floor(0.35 * input.totalHospitalBeds);
   const hospitalBedsByRequestedTime = availableBeds - severeCasesByRequestedTime;
 
   // Estimated number of severe positive cases(severe impact) that will require ICU care.
