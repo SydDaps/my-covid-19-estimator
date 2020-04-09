@@ -15,7 +15,7 @@ router
 
 router
   .route('/:type')
-  .get(estimateController.getEstimate);
-
+  .get(estimateController.getEstimate)
+  .post(estimateController.getData);
 
 module.exports = router;

@@ -10,18 +10,15 @@ const serializer = new EasyXml({
   manifest: true
 });
 
-const data = {
-  region: {
-    name: 'Africa',
-    avgAge: 19.7,
-    avgDailyIncomeInUSD: 5,
-    avgDailyIncomePopulation: 0.71
-  }
-};
+let data = { region: {} };
 
 
-const validate = (user) => {
+const validate = (val) => {
   const schema = {
+    name: Joi.string().required(),
+    avgAge: Joi.number().required(),
+    avgDailyIncomeInUSD: Joi.number().required(),
+    avgDailyIncomePopulation: Joi.number().required(),
     periodType: Joi.string().required().valid('days', 'weeks', 'months'),
     timeToElapse: Joi.number().required(),
     reportedCases: Joi.number().required(),
@@ -29,7 +26,24 @@ const validate = (user) => {
     totalHospitalBeds: Joi.number().required()
 
   };
-  return Joi.validate(user, schema);
+  return Joi.validate(val, schema);
+};
+const validateObj = (val) => {
+  const schema = {
+    region: Joi.object({
+      name: Joi.string().required(),
+      avgAge: Joi.number().required(),
+      avgDailyIncomeInUSD: Joi.number().required(),
+      avgDailyIncomePopulation: Joi.number().required()
+    }),
+    periodType: Joi.string().required().valid('days', 'weeks', 'months'),
+    timeToElapse: Joi.number().required(),
+    reportedCases: Joi.number().required(),
+    population: Joi.number().required(),
+    totalHospitalBeds: Joi.number().required()
+
+  };
+  return Joi.validate(val, schema);
 };
 
 exports.getEstimate = (req, res, next) => {
@@ -50,17 +64,34 @@ exports.getEstimate = (req, res, next) => {
 
 
 exports.getData = (req, res, next) => {
-  const { error } = validate(req.body);
-  if (error) {
-    const err = new Error(error.details[0].message);
-    next(err);
+  const url = req.originalUrl;
+  console.log(url);
+  if (req.body.name) {
+    const { error } = validate(req.body);
+    if (error) {
+      const err = new Error(error.details[0].message);
+      next(err);
+    } else {
+      data.region.name = req.body.name;
+      data.region.avgAge = req.body.avgAge;
+      data.region.avgDailyIncomeInUSD = req.body.avgDailyIncomeInUSD;
+      data.region.avgDailyIncomePopulation = req.body.avgDailyIncomePopulation;
+      data.periodType = req.body.periodType;
+      data.timeToElapse = req.body.timeToElapse;
+      data.reportedCases = req.body.reportedCases;
+      data.population = req.body.population;
+      data.totalHospitalBeds = req.body.totalHospitalBeds;
+      res.redirect(url);
+    }
   } else {
-    data.periodType = req.body.periodType;
-    data.timeToElapse = req.body.timeToElapse;
-    data.reportedCases = req.body.reportedCases;
-    data.population = req.body.population;
-    data.totalHospitalBeds = req.body.totalHospitalBeds;
-    res.redirect('/api/v1/on-covid-19');
+    const { error } = validateObj(req.body);
+    if (error) {
+      const err = new Error(error.details[0].message);
+      next(err);
+    } else {
+      data = req.body;
+      res.redirect(url);
+    }
   }
 };
 

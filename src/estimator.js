@@ -35,7 +35,7 @@ const calcImpact = (input) => {
     hospitalBedsByRequestedTime: Math.trunc(hospitalBedsByRequestedTime),
     casesForICUByRequestedTime: Math.trunc(casesForICUByRequestedTime),
     casesForVentilatorsByRequestedTime: Math.trunc(casesForVentilatorsByRequestedTime),
-    dollarsInFlight: parseFloat(dollarsInFlight.toFixed(2))
+    dollarsInFlight: Math.trunc(dollarsInFlight)
   };
   return impactObj;
 };
@@ -78,7 +78,7 @@ const calcSevereImpact = (input) => {
     hospitalBedsByRequestedTime: Math.trunc(hospitalBedsByRequestedTime),
     casesForICUByRequestedTime: Math.trunc(casesForICUByRequestedTime),
     casesForVentilatorsByRequestedTime: Math.trunc(casesForVentilatorsByRequestedTime),
-    dollarsInFlight: parseFloat(dollarsInFlight.toFixed(2))
+    dollarsInFlight: Math.trunc(dollarsInFlight)
   };
   return severeImpactObj;
 };
