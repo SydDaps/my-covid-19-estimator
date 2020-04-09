@@ -53,14 +53,23 @@ exports.getData = (req, res, next) => {
   if (error) {
     const err = new Error(error.details[0].message);
 
-    return next(err);
+    next(err);
+  } else {
+    data.periodType = req.body.periodType;
+    data.timeToElapse = req.body.timeToElapse;
+    data.reportedCases = req.body.reportedCases;
+    data.population = req.body.population;
+    data.totalHospitalBeds = req.body.totalHospitalBeds;
+    const estimate = covid19ImpactEstimator(data);
+    res.send(estimate);
   }
   data.periodType = req.body.periodType;
   data.timeToElapse = req.body.timeToElapse;
   data.reportedCases = req.body.reportedCases;
   data.population = req.body.population;
   data.totalHospitalBeds = req.body.totalHospitalBeds;
-  res.redirect('/api/v1/on-covid-19');
+  const estimate = covid19ImpactEstimator(data);
+  res.send(estimate);
 };
 
 exports.getLogs = (req, res) => {
