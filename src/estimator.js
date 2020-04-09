@@ -25,7 +25,7 @@ const calcImpact = (input) => {
 
   // Estimate loss in economy (i.e general impact)
   const inPopu = infectionsByRequestedTime * input.region.avgDailyIncomePopulation;
-  const dollarsInFlight = inPopu * input.region.avgDailyIncomeInUSD * days;
+  const dollarsInFlight = (inPopu * input.region.avgDailyIncomeInUSD) / days;
 
 
   const impactObj = {
@@ -69,7 +69,7 @@ const calcSevereImpact = (input) => {
   // Estimate loss in economy (i.e general impact)
 
   const inPopu = infectionsByRequestedTime * input.region.avgDailyIncomePopulation;
-  const dollarsInFlight = inPopu * input.region.avgDailyIncomeInUSD * days;
+  const dollarsInFlight = (inPopu * input.region.avgDailyIncomeInUSD) / days;
 
   const severeImpactObj = {
     currentlyInfected: Math.trunc(currentlyInfected),
