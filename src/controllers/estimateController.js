@@ -52,7 +52,6 @@ exports.getData = (req, res, next) => {
   const { error } = validate(req.body);
   if (error) {
     const err = new Error(error.details[0].message);
-
     next(err);
   } else {
     data.periodType = req.body.periodType;
@@ -60,8 +59,7 @@ exports.getData = (req, res, next) => {
     data.reportedCases = req.body.reportedCases;
     data.population = req.body.population;
     data.totalHospitalBeds = req.body.totalHospitalBeds;
-    const estimate = covid19ImpactEstimator(data);
-    res.send(estimate);
+    res.redirect('/api/v1/on-covid-19');
   }
   data.periodType = req.body.periodType;
   data.timeToElapse = req.body.timeToElapse;
