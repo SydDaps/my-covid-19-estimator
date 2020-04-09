@@ -7,21 +7,21 @@ const calcImpact = (input) => {
   let days = input.timeToElapse;
   if (input.periodType === 'weeks') days *= 7;
   else if (input.periodType === 'months') days *= 30;
-  const factor = Math.floor(days / 3);
+  const factor = Math.trunc(days / 3);
   const infectionsByRequestedTime = currentlyInfected * (2 ** factor);
 
   // Estimated number of severe positive cases that will require hospitalization to recover.
-  const severeCasesByRequestedTime = Math.floor(0.15 * infectionsByRequestedTime);
+  const severeCasesByRequestedTime = 0.15 * infectionsByRequestedTime;
 
   // Estimated total hospital beds at requested time
-  const availableBeds = Math.floor(0.35 * input.totalHospitalBeds);
+  const availableBeds = 0.35 * input.totalHospitalBeds;
   const hospitalBedsByRequestedTime = availableBeds - severeCasesByRequestedTime;
 
   // Estimated number of severe positive cases(severe impact) that will require ICU care.
-  const casesForICUByRequestedTime = Math.floor(0.05 * infectionsByRequestedTime);
+  const casesForICUByRequestedTime = 0.05 * infectionsByRequestedTime;
 
   // //Estimated number of severe positive cases(severe impact) that will require ICU care.
-  const casesForVentilatorsByRequestedTime = Math.floor(0.02 * infectionsByRequestedTime);
+  const casesForVentilatorsByRequestedTime = 0.02 * infectionsByRequestedTime;
 
   // Estimate loss in economy (i.e general impact)
   const inPopu = infectionsByRequestedTime * input.region.avgDailyIncomePopulation;
@@ -29,12 +29,12 @@ const calcImpact = (input) => {
 
 
   const impactObj = {
-    currentlyInfected: Math.floor(currentlyInfected),
-    infectionsByRequestedTime: Math.floor(infectionsByRequestedTime),
-    severeCasesByRequestedTime: Math.floor(severeCasesByRequestedTime),
+    currentlyInfected: Math.trunc(currentlyInfected),
+    infectionsByRequestedTime: Math.trunc(infectionsByRequestedTime),
+    severeCasesByRequestedTime: Math.trunc(severeCasesByRequestedTime),
     hospitalBedsByRequestedTime: Math.trunc(hospitalBedsByRequestedTime),
-    casesForICUByRequestedTime: Math.floor(casesForICUByRequestedTime),
-    casesForVentilatorsByRequestedTime: Math.floor(casesForVentilatorsByRequestedTime),
+    casesForICUByRequestedTime: Math.trunc(casesForICUByRequestedTime),
+    casesForVentilatorsByRequestedTime: Math.trunc(casesForVentilatorsByRequestedTime),
     dollarsInFlight: parseFloat(dollarsInFlight.toFixed(2))
   };
   return impactObj;
@@ -50,21 +50,21 @@ const calcSevereImpact = (input) => {
   let days = input.timeToElapse;
   if (input.periodType === 'weeks') days *= 7;
   else if (input.periodType === 'months') days *= 30;
-  const factor = Math.floor(days / 3);
+  const factor = Math.trunc(days / 3);
   const infectionsByRequestedTime = currentlyInfected * (2 ** factor);
 
   // Estimated number of severe positive cases that will require hospitalization to recover.
-  const severeCasesByRequestedTime = Math.floor(0.15 * infectionsByRequestedTime);
+  const severeCasesByRequestedTime = 0.15 * infectionsByRequestedTime;
 
   // Estimated total hospital beds at requested time
-  const availableBeds = Math.floor(0.35 * input.totalHospitalBeds);
+  const availableBeds = 0.35 * input.totalHospitalBeds;
   const hospitalBedsByRequestedTime = availableBeds - severeCasesByRequestedTime;
 
   // Estimated number of severe positive cases(severe impact) that will require ICU care.
-  const casesForICUByRequestedTime = Math.floor(0.05 * infectionsByRequestedTime);
+  const casesForICUByRequestedTime = 0.05 * infectionsByRequestedTime;
 
   // //Estimated number of severe positive cases(severe impact) that will require ICU care.
-  const casesForVentilatorsByRequestedTime = Math.floor(0.02 * infectionsByRequestedTime);
+  const casesForVentilatorsByRequestedTime = 0.02 * infectionsByRequestedTime;
 
   // Estimate loss in economy (i.e general impact)
 
@@ -72,12 +72,12 @@ const calcSevereImpact = (input) => {
   const dollarsInFlight = inPopu * input.region.avgDailyIncomeInUSD * days;
 
   const severeImpactObj = {
-    currentlyInfected: Math.floor(currentlyInfected),
-    infectionsByRequestedTime: Math.floor(infectionsByRequestedTime),
-    severeCasesByRequestedTime: Math.floor(severeCasesByRequestedTime),
+    currentlyInfected: Math.trunc(currentlyInfected),
+    infectionsByRequestedTime: Math.trunc(infectionsByRequestedTime),
+    severeCasesByRequestedTime: Math.trunc(severeCasesByRequestedTime),
     hospitalBedsByRequestedTime: Math.trunc(hospitalBedsByRequestedTime),
-    casesForICUByRequestedTime: Math.floor(casesForICUByRequestedTime),
-    casesForVentilatorsByRequestedTime: Math.floor(casesForVentilatorsByRequestedTime),
+    casesForICUByRequestedTime: Math.trunc(casesForICUByRequestedTime),
+    casesForVentilatorsByRequestedTime: Math.trunc(casesForVentilatorsByRequestedTime),
     dollarsInFlight: parseFloat(dollarsInFlight.toFixed(2))
   };
   return severeImpactObj;
