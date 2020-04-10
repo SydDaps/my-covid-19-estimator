@@ -51,5 +51,7 @@ app.use((err, req, res) => {
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Server started on port ${port}`);
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`Server started on port ${port}`);
+  }
 });
