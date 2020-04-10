@@ -53,10 +53,8 @@ exports.getEstimate = (req, res, next) => {
     const xml = serializer.render(estimate);
     res.send(xml);
   } else if (req.params.type === 'json' || !req.params.type) {
-    res.status(200).json({
-      status: 'Success',
-      estimate
-    });
+    res.header('Content-Type', 'application/json');
+    return res.status(200).json(estimate);
   } else {
     next(new Error(`Can not find ${req.originalUrl} on this server!`, 404));
   }
@@ -96,10 +94,8 @@ exports.getData = (req, res, next) => {
     const xml = serializer.render(estimate);
     return res.send(xml);
   } if (req.params.type === 'json' || !req.params.type) {
-    return res.status(200).json({
-      status: 'Success',
-      estimate
-    });
+    res.header('Content-Type', 'application/json');
+    return res.status(200).json(estimate);
   }
   return next(new Error(`Can not find ${req.originalUrl} on this server!`));
 };
