@@ -35,7 +35,6 @@ app.all('*', (req, res, next) => {
   next(err);
 });
 app.use((err, req, res, next) => {
-  console.log('here');
   res.status(400).json({
     status: 'failed',
     error: err.message
