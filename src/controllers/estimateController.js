@@ -101,9 +101,14 @@ exports.getData = (req, res, next) => {
 };
 
 exports.getLogs = (req, res) => {
-  fs.readFile('./src/access.log', 'utf8', (err, dat) => {
-    if (err) throw err;
-    res.header('Content-Type', 'text/xml');
-    res.send(dat);
-  });
+  const cont = fs.readFileSync('./src/access.txt', 'utf8');
+
+  res.send(cont);
 };
+
+// (err, dat) => {
+//   if (err) throw err;
+//   // console.log(dat);
+//   res.header('Content-Type', 'text/xml');
+//   res.send(dat.toString());
+// });

@@ -12,7 +12,7 @@ const apiRoute = require('./src/routes/mainRoute');
 dotenv.config({ path: './src/config.env' });
 
 
-const accessLogStream = fs.createWriteStream('./src/access.log', { flags: 'a' });
+const accessLogStream = fs.createWriteStream('./src/access.txt', { flags: 'a' });
 app.use(logger(
   ':method      :url        :status     :response-time ms', {
     stream: {
