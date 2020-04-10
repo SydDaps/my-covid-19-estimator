@@ -69,42 +69,39 @@ exports.getData = (req, res, next) => {
     const { error } = validate(req.body);
     if (error) {
       const err = new Error(error.details[0].message);
-      next(err);
-    } else {
-      data.region.name = req.body.name;
-      data.region.avgAge = req.body.avgAge;
-      data.region.avgDailyIncomeInUSD = req.body.avgDailyIncomeInUSD;
-      data.region.avgDailyIncomePopulation = req.body.avgDailyIncomePopulation;
-      data.periodType = req.body.periodType;
-      data.timeToElapse = req.body.timeToElapse;
-      data.reportedCases = req.body.reportedCases;
-      data.population = req.body.population;
-      data.totalHospitalBeds = req.body.totalHospitalBeds;
-      // res.redirect(url);
+      return next(err);
     }
+    data.region.name = req.body.name;
+    data.region.avgAge = req.body.avgAge;
+    data.region.avgDailyIncomeInUSD = req.body.avgDailyIncomeInUSD;
+    data.region.avgDailyIncomePopulation = req.body.avgDailyIncomePopulation;
+    data.periodType = req.body.periodType;
+    data.timeToElapse = req.body.timeToElapse;
+    data.reportedCases = req.body.reportedCases;
+    data.population = req.body.population;
+    data.totalHospitalBeds = req.body.totalHospitalBeds;
+    // res.redirect(url);
   } else {
     const { error } = validateObj(req.body);
     if (error) {
       const err = new Error(error.details[0].message);
-      next(err);
-    } else {
-      data = req.body;
-      // res.redirect(url);
+      return next(err);
     }
+    data = req.body;
+    // res.redirect(url);
   }
   const estimate = covid19ImpactEstimator(data);
   if (req.params.type === 'xml') {
     res.header('Content-Type', 'text/xml');
     const xml = serializer.render(estimate);
-    res.send(xml);
-  } else if (req.params.type === 'json' || !req.params.type) {
-    res.status(200).json({
+    return res.send(xml);
+  } if (req.params.type === 'json' || !req.params.type) {
+    return res.status(200).json({
       status: 'Success',
       estimate
     });
-  } else {
-    next(new Error(`Can not find ${req.originalUrl} on this server!`, 404));
   }
+  return next(new Error(`Can not find ${req.originalUrl} on this server!`));
 };
 
 exports.getLogs = (req, res) => {

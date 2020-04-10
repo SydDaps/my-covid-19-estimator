@@ -35,18 +35,11 @@ app.all('*', (req, res, next) => {
   next(err);
 });
 app.use((err, req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    res.status(400).json({
-      status: 'failed',
-      error: err.message,
-      stack: err.stack
-    });
-  } else {
-    res.status(400).json({
-      status: 'failed',
-      error: err.message
-    });
-  }
+  console.log('here');
+  res.status(400).json({
+    status: 'failed',
+    error: err.message
+  });
   next();
 });
 
