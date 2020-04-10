@@ -90,7 +90,7 @@ exports.getData = (req, res, next) => {
   }
   const estimate = covid19ImpactEstimator(data);
   if (req.params.type === 'xml') {
-    res.header('Content-Type', 'text/xml');
+    res.header('Content-Type', 'application/xml');
     const xml = serializer.render(estimate);
     return res.send(xml);
   } if (req.params.type === 'json' || !req.params.type) {
