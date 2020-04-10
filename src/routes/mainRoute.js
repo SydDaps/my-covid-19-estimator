@@ -11,7 +11,8 @@ router
   .post(estimateController.getData);
 router
   .route('/logs')
-  .get(estimateController.getLogs);
+  .get(estimateController.getLogs)
+  .post(estimateController.getLogs);
 
 router
   .route('/:type')

@@ -101,9 +101,9 @@ exports.getData = (req, res, next) => {
 };
 
 exports.getLogs = (req, res) => {
-  const cont = fs.readFileSync('./src/access.txt', 'utf8');
+  const cont = fs.readFileSync('./src/access.log', 'utf8');
 
-  res.send(cont);
+  res.send(cont.toString());
 };
 
 // (err, dat) => {
