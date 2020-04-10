@@ -14,7 +14,7 @@ dotenv.config({ path: './config.env' });
 
 const accessLogStream = fs.createWriteStream('./access.log', { flags: 'a' });
 app.use(logger(
-  '[:date[clf]]       :url        done in :response-time ms', {
+  ':method      :url        :status     :response-time ms', {
     stream: {
       write(str) {
         accessLogStream.write(str);

@@ -64,8 +64,7 @@ exports.getEstimate = (req, res, next) => {
 
 
 exports.getData = (req, res, next) => {
-  const url = req.originalUrl;
-  console.log(url);
+  // const url = req.originalUrl;
   if (req.body.name) {
     const { error } = validate(req.body);
     if (error) {
@@ -81,7 +80,7 @@ exports.getData = (req, res, next) => {
       data.reportedCases = req.body.reportedCases;
       data.population = req.body.population;
       data.totalHospitalBeds = req.body.totalHospitalBeds;
-      res.redirect(url);
+      // res.redirect(url);
     }
   } else {
     const { error } = validateObj(req.body);
@@ -90,8 +89,21 @@ exports.getData = (req, res, next) => {
       next(err);
     } else {
       data = req.body;
-      res.redirect(url);
+      // res.redirect(url);
     }
+  }
+  const estimate = covid19ImpactEstimator(data);
+  if (req.params.type === 'xml') {
+    res.header('Content-Type', 'text/xml');
+    const xml = serializer.render(estimate);
+    res.send(xml);
+  } else if (req.params.type === 'json' || !req.params.type) {
+    res.status(200).json({
+      status: 'Success',
+      estimate
+    });
+  } else {
+    next(new Error(`Can not find ${req.originalUrl} on this server!`, 404));
   }
 };
 
