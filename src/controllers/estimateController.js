@@ -108,7 +108,7 @@ exports.getData = (req, res, next) => {
 };
 
 exports.getLogs = (req, res) => {
-  fs.readFile('./access.log', 'utf8', (err, dat) => {
+  fs.readFile('./src/access.log', 'utf8', (err, dat) => {
     if (err) throw err;
     res.header('Content-Type', 'text/xml');
     res.send(dat);
