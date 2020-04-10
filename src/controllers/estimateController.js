@@ -54,7 +54,7 @@ exports.getEstimate = (req, res, next) => {
     res.send(xml);
   } else if (req.params.type === 'json' || !req.params.type) {
     res.header('Content-Type', 'application/json');
-    return res.status(200).json(estimate);
+    res.status(200).json(estimate);
   } else {
     next(new Error(`Can not find ${req.originalUrl} on this server!`, 404));
   }
