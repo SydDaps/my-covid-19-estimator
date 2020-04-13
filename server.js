@@ -14,10 +14,20 @@ dotenv.config({ path: './src/config.env' });
 
 const accessLogStream = fs.createWriteStream('./src/access.log', { flags: 'a' });
 app.use(logger(
-  ':method      :url        :status     :response-time ms', {
+  ':method\t:url\t:status\t:response-time', {
     stream: {
-      write(str) {
-        accessLogStream.write(str);
+      write(string) {
+        const finalIndex = string.length - 1;
+        const lastTabIndex = string.lastIndexOf('\t');
+        const str = string.substring(lastTabIndex + 1, finalIndex);
+        let time = Math.ceil(parseFloat(str));
+        if (time < 10) {
+          time = `0${time.toString()}`;
+        } else {
+          time = time.toString();
+        }
+        const msg = `${string.substring(0, lastTabIndex + 1)}${time}ms\n`;
+        accessLogStream.write(msg);
       }
     }
   }
